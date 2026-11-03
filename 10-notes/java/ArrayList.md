@@ -1,17 +1,17 @@
 ---
- type: note
-  topic: java
-  status: review        # 今天写完先标 review，周日自测过了再标 done
-  tags: [集合, arraylist]
-  created: 2026-11-02
-  source: JDK 21 源码 / 手写 MyArrayList 实践
+type: note
+topic: java
+status: review        # 今天写完先标 review，周日自测过了再标 done
+tags: [集合, arraylist]
+created: 2026-11-02
+source: JDK 21 源码 / 手写 MyArrayList 实践
 ---
 
 # ArrayList 的核心机制
 
 ## 一句话结论
 
-> > ArrayList = Object[] 数组 + 1.5 倍扩容 + modCount 快速失败。查改 O(1)，中间增删 O(n)。
+> ArrayList = Object[] 数组 + 1.5 倍扩容 + modCount 快速失败。查改 O(1)，中间增删 O(n)。
 
 ## 原理（自己画，不要贴别人的图）
 
@@ -27,15 +27,15 @@
 
 | 场景 | 会发生什么 | 怎么规避 |
 |---|---|---|
-| get(-1) | 我手写版会炸（没查负数），JDK 会抛 IndexOutOfBoundsException） | 范围检查要查两端 |
+| get(-1) | 我手写版会炸（没查负数），JDK 会抛 IndexOutOfBoundsException | 范围检查要查两端 |
 | 迭代中 add | ConcurrentModificationException | 用迭代器的 remove，或收集后再改 |
 | 1.5 倍扩容 | 比 2 倍省内存，但扩容更频繁 | 已知大小时用带容量的构造器 |
 | 并发 add | 丢数据（不是线程安全的） | 用 CopyOnWriteArrayList 或加锁 |
 
 ## 我项目里在哪用到
 
->   > 健身预约系统的课程列表查询，MyBatis 返回的 List<Course> 默认就是 ArrayList。
->   > 场景特点：读多写少、大小可预估，正好是 ArrayList 的适用场景
+> 健身预约系统的课程列表查询，MyBatis 返回的 List<Course> 默认就是 ArrayList。
+> 场景特点：读多写少、大小可预估，正好是 ArrayList 的适用场景
 
 ## 追问 3 个（自己先答，再对照笔记）
 
@@ -52,8 +52,6 @@
 
 
 
-- ArrayList 和 LinkedList 各自适合什么场景？
+## 三个月后自测
 
-  
-
-> 合上这份笔记，能不能画出 resize 的桶迁移过程？能 → 标 done；不能 → 保持 review。
+> 合上这份笔记，能不能手写出 add / grow / remove / 迭代器四个方法？能 → 标 done；不能 → 保持 review。
